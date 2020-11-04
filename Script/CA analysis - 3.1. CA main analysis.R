@@ -36,3 +36,5 @@ total_efficacy_test = cbind(SARA_efficacy_test,
                             Gaitcadence_efficacy_test$pvalue,
                             Gaitsupport_efficacy_test$pvalue,
                             Gaitvelocity_efficacy_test$pvalue)
+
+save.image("./Output/CA_analysis.Rdata")
