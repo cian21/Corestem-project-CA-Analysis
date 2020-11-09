@@ -23,7 +23,7 @@ Gaitvelocity_lmm_030 = lmm_index_run(efficacy_file_Gaitvelocity, expr_file_030_c
 Gaitcadence_lmm_030 = lmm_index_run(efficacy_file_Gaitcadence, expr_file_030_cpm)
 Gaitsupport_lmm_030 = lmm_index_run(efficacy_file_Gaitsupport, expr_file_030_cpm)
 
-#### 4. efficacy test ####
+#### 4. efficacy test1 ####
 SARA_efficacy_test = efficacy_test_run(efficacy_file_SARA)
 Swayneck_efficacy_test = efficacy_test_run(efficacy_file_Swayneck)
 Swaywaist_efficacy_test = efficacy_test_run(efficacy_file_Swaywaist)
@@ -36,5 +36,20 @@ total_efficacy_test = cbind(SARA_efficacy_test,
                             Gaitcadence_efficacy_test$pvalue,
                             Gaitsupport_efficacy_test$pvalue,
                             Gaitvelocity_efficacy_test$pvalue)
+
+#### 5. efficacy test2 ####
+SARA_efficacy_test_td = efficacy_test_run_truedate(efficacy_file_SARA, "SARA")
+Swayneck_efficacy_test_td = efficacy_test_run_truedate(efficacy_file_Swayneck, "Wear")
+Swaywaist_efficacy_test_td = efficacy_test_run_truedate(efficacy_file_Swaywaist, "Wear")
+Gaitcadence_efficacy_test_td = efficacy_test_run_truedate(efficacy_file_Gaitcadence, "Gait")
+Gaitsupport_efficacy_test_td = efficacy_test_run_truedate(efficacy_file_Gaitsupport ,"Gait")
+Gaitvelocity_efficacy_test_td = efficacy_test_run_truedate(efficacy_file_Gaitvelocity ,"Gait")
+total_efficacy_test_td = cbind(SARA_efficacy_test_td,
+                            Swayneck_efficacy_test_td$pvalue,
+                            Swaywaist_efficacy_test_td$pvalue,
+                            Gaitcadence_efficacy_test_td$pvalue,
+                            Gaitsupport_efficacy_test_td$pvalue,
+                            Gaitvelocity_efficacy_test_td$pvalue)
+
 
 save.image("./Output/CA_analysis.Rdata")

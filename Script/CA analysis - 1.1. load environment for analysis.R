@@ -20,4 +20,9 @@ efficacy_file_Gaitvelocity = read_xlsx(efficacy_file, sheet = 4)
 efficacy_file_Gaitcadence = read_xlsx(efficacy_file, sheet = 5)
 efficacy_file_Gaitsupport = read_xlsx(efficacy_file, sheet = 6)
 
+visit_date_file = "./Data/Rawdata/유효성검사 평가일.xlsx"
+visit_date_SARA_gait = read_xlsx(visit_date_file, sheet = 1)
+visit_date_Wearable = read_xlsx(visit_date_file, sheet = 2)
+
 save.image(file = "./Data/CA analysis files.image")
+
