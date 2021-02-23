@@ -210,14 +210,14 @@ efficacy_test_run  = function(efficacy_table){
         tmp_table[7,2] = t.test(efficacy_table$V2, efficacy_table$V3,
                                   var.equal = TRUE)$p.value
     }
-    if(tmp_table[4,2] < 0.05){
+    if(tmp_table[5,2] < 0.05){
         tmp_table[8,2] = t.test(efficacy_table$V2, efficacy_table$V4,
                                 var.equal = FALSE)$p.value
     }else{
         tmp_table[8,2] = t.test(efficacy_table$V2, efficacy_table$V4,
                                 var.equal = TRUE)$p.value
     }
-    if(tmp_table[4,2] < 0.05){
+    if(tmp_table[6,2] < 0.05){
         tmp_table[9,2] = t.test((efficacy_table$V2 - efficacy_table$V1)/2,
                                   (efficacy_table$V3 - efficacy_table$V2),
                                 var.equal = FALSE)$p.value
@@ -234,14 +234,14 @@ efficacy_test_run  = function(efficacy_table){
         tmp_table[10,2] = t.test(efficacy_table$V2, efficacy_table$V3,
                                  paired = T, var.equal = TRUE)$p.value
     }
-    if(tmp_table[4,2] < 0.05){
+    if(tmp_table[5,2] < 0.05){
         tmp_table[11,2] = t.test(efficacy_table$V2, efficacy_table$V4,
                                  paired = T, var.equal = FALSE)$p.value
     }else{
         tmp_table[11,2] = t.test(efficacy_table$V2, efficacy_table$V4,
                                  paired = T, var.equal = TRUE)$p.value
     }
-    if(tmp_table[4,2] < 0.05){
+    if(tmp_table[6,2] < 0.05){
         tmp_table[12,2] = t.test((efficacy_table$V2 - efficacy_table$V1)/2,
                                 (efficacy_table$V3 - efficacy_table$V2),
                                 paired = T, var.equal = FALSE)$p.value
@@ -257,9 +257,9 @@ efficacy_test_run  = function(efficacy_table){
 }
 efficacy_test_run_truedate  = function(efficacy_table, type){
     if(type == "SARA" | type == "Gait"){
-        visit = visit_date_SARA_gait[1:8,]
+        visit = visit_date_SARA_gait[1:ncol(visit_date_SARA_gait),]
     }else{
-        visit = visit_date_Wearable[1:8,]
+        visit = visit_date_Wearable[1:ncol(visit_date_Wearable),]
     }
     visit = visit[order(visit$Samples),]
     efficacy_table = efficacy_table[order(efficacy_table$Samples),]
@@ -294,14 +294,14 @@ efficacy_test_run_truedate  = function(efficacy_table, type){
         tmp_table[7,2] = t.test(efficacy_table$V2, efficacy_table$V3,
                                 var.equal = TRUE)$p.value
     }
-    if(tmp_table[4,2] < 0.05){
+    if(tmp_table[5,2] < 0.05){
         tmp_table[8,2] = t.test(efficacy_table$V2, efficacy_table$V4,
                                 var.equal = FALSE)$p.value
     }else{
         tmp_table[8,2] = t.test(efficacy_table$V2, efficacy_table$V4,
                                 var.equal = TRUE)$p.value
     }
-    if(tmp_table[4,2] < 0.05){
+    if(tmp_table[6,2] < 0.05){
         tmp_table[9,2] = t.test((efficacy_table$V2 - efficacy_table$V1)/ ((visit$V2 - visit$V1) / 28),
                                 (efficacy_table$V3 - efficacy_table$V2),
                                 var.equal = FALSE)$p.value
@@ -318,20 +318,102 @@ efficacy_test_run_truedate  = function(efficacy_table, type){
         tmp_table[10,2] = t.test(efficacy_table$V2, efficacy_table$V3,
                                  paired = T, var.equal = TRUE)$p.value
     }
-    if(tmp_table[4,2] < 0.05){
+    if(tmp_table[5,2] < 0.05){
         tmp_table[11,2] = t.test(efficacy_table$V2, efficacy_table$V4,
                                  paired = T, var.equal = FALSE)$p.value
     }else{
         tmp_table[11,2] = t.test(efficacy_table$V2, efficacy_table$V4,
                                  paired = T, var.equal = TRUE)$p.value
     }
-    if(tmp_table[4,2] < 0.05){
+    if(tmp_table[6,2] < 0.05){
         tmp_table[12,2] = t.test((efficacy_table$V2 - efficacy_table$V1)/ ((visit$V2 - visit$V1) / 28),
                                  (efficacy_table$V3 - efficacy_table$V2),
                                  paired = T, var.equal = FALSE)$p.value
     }else{
         tmp_table[12,2] = t.test((efficacy_table$V2 - efficacy_table$V1)/ ((visit$V2 - visit$V1) / 28),
                                  (efficacy_table$V3 - efficacy_table$V2),
+                                 paired = T, var.equal = TRUE)$p.value
+    }
+    
+    return(tmp_table)
+}
+efficacy_test_run_truedate2  = function(efficacy_table, type){
+    if(type == "SARA" | type == "Gait"){
+        visit = visit_date_SARA_gait[1:ncol(visit_date_SARA_gait),]
+    }else{
+        visit = visit_date_Wearable[1:ncol(visit_date_Wearable),]
+    }
+    visit = visit[order(visit$Samples),]
+    efficacy_table = efficacy_table[order(efficacy_table$Samples),]
+    
+    tmp_table  = data.frame(test = NA, pvalue = NA)
+    tmp_table[1:12,1] = c("wilcox.test_v2_v3",
+                          "wilcox.test_v2_v4",
+                          "wilcox.test_v2-v1_v4-v2",
+                          "var.test_v2_v3",
+                          "var.test_v2_v4",
+                          "var.test_v2_v1-v4-v2",
+                          "t.test_v2_v3",
+                          "t.test_v2_v4",
+                          "t.test_v2-v1_v4-v2",
+                          "pt.test_v2_v3",
+                          "pt.test_v2_v4",
+                          "pt.test_v2-v1_v4-v2")
+    tmp_table[1,2] = wilcox.test(efficacy_table$V2, efficacy_table$V3)$p.value
+    tmp_table[2,2] = wilcox.test(efficacy_table$V2, efficacy_table$V4)$p.value
+    tmp_table[3,2] = wilcox.test((efficacy_table$V2 - efficacy_table$V1)/ ((visit$V2 - visit$V1) / 28),
+                                 ((efficacy_table$V4 - efficacy_table$V2) / 3))$p.value
+    
+    tmp_table[4,2] = var.test(efficacy_table$V2, efficacy_table$V3)$p.value
+    tmp_table[5,2] = var.test(efficacy_table$V2, efficacy_table$V4)$p.value
+    tmp_table[6,2] = var.test((efficacy_table$V2 - efficacy_table$V1)/ ((visit$V2 - visit$V1) / 28),
+                              ((efficacy_table$V4 - efficacy_table$V2) / 3))$p.value
+    
+    if(tmp_table[4,2] < 0.05){
+        tmp_table[7,2] = t.test(efficacy_table$V2, efficacy_table$V3,
+                                var.equal = FALSE)$p.value
+    }else{
+        tmp_table[7,2] = t.test(efficacy_table$V2, efficacy_table$V3,
+                                var.equal = TRUE)$p.value
+    }
+    if(tmp_table[5,2] < 0.05){
+        tmp_table[8,2] = t.test(efficacy_table$V2, efficacy_table$V4,
+                                var.equal = FALSE)$p.value
+    }else{
+        tmp_table[8,2] = t.test(efficacy_table$V2, efficacy_table$V4,
+                                var.equal = TRUE)$p.value
+    }
+    if(tmp_table[6,2] < 0.05){
+        tmp_table[9,2] = t.test((efficacy_table$V2 - efficacy_table$V1)/ ((visit$V2 - visit$V1) / 28),
+                                ((efficacy_table$V4 - efficacy_table$V2) / 3),
+                                var.equal = FALSE)$p.value
+    }else{
+        tmp_table[9,2] = t.test((efficacy_table$V2 - efficacy_table$V1)/ ((visit$V2 - visit$V1) / 28),
+                                ((efficacy_table$V4 - efficacy_table$V2) / 3),
+                                var.equal = TRUE)$p.value
+    }
+    
+    if(tmp_table[4,2] < 0.05){
+        tmp_table[10,2] = t.test(efficacy_table$V2, efficacy_table$V3,
+                                 paired = T, var.equal = FALSE)$p.value
+    }else{
+        tmp_table[10,2] = t.test(efficacy_table$V2, efficacy_table$V3,
+                                 paired = T, var.equal = TRUE)$p.value
+    }
+    if(tmp_table[5,2] < 0.05){
+        tmp_table[11,2] = t.test(efficacy_table$V2, efficacy_table$V4,
+                                 paired = T, var.equal = FALSE)$p.value
+    }else{
+        tmp_table[11,2] = t.test(efficacy_table$V2, efficacy_table$V4,
+                                 paired = T, var.equal = TRUE)$p.value
+    }
+    if(tmp_table[6,2] < 0.05){
+        tmp_table[12,2] = t.test((efficacy_table$V2 - efficacy_table$V1)/ ((visit$V2 - visit$V1) / 28),
+                                 ((efficacy_table$V4 - efficacy_table$V2) / 3),
+                                 paired = T, var.equal = FALSE)$p.value
+    }else{
+        tmp_table[12,2] = t.test((efficacy_table$V2 - efficacy_table$V1)/ ((visit$V2 - visit$V1) / 28),
+                                 ((efficacy_table$V4 - efficacy_table$V2) / 3),
                                  paired = T, var.equal = TRUE)$p.value
     }
     

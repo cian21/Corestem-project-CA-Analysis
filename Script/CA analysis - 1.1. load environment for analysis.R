@@ -8,7 +8,7 @@ lapply(packs, require, character.only = TRUE)
 rm(packs)
 
 #### 2. Files Loading ####
-expr_file = "./Data/Rawdata/gene_count_matrix_201102.csv"
+expr_file = "./Data/Rawdata/gene_count_matrix_210223.csv"
 expr_file = read.csv(expr_file, stringsAsFactors = F, header = T)
 expr_file = expr_file[complete.cases(expr_file),]
 
