@@ -1,6 +1,6 @@
 # Corestem project - FACS analysis.proj
 # 20201028 Sehwan Chun at Corestem, Inc.
-# 3.1. CA main analysis
+# 3.2. CA PCR analysis
 
 #### 1. source Loading ####
 load("./Data/CA analysis files.image")
