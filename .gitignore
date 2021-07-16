@@ -51,3 +51,7 @@ vignettes/*.pdf
 
 # R temps
 Data/*
+Output/*
+*.image
+Data/*.image
+Data/*/*.xlsx
